@@ -1,0 +1,47 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+  <div class="box-header d-flex justify-content-between align-items-center">
+    <h3 class="box-title"><b>Reports Table</b></h3>
+    <button class="btn btn-primary" onclick="goNew();">New</button>
+  </div><!-- /.box-header -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Report Type</th>
+        <th>Address</th>
+        <th>Describe</th>
+        <th>Time Done</th>
+        <th>Time Stamp</th>
+        <th>Note</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each rp}}
+      <tr>
+        <td>{{index}}</td>
+        <td><img src="images/{{image}}" alt="" width="150px" height="150px" /></td>
+        <td>{{reportType}}</td>
+        <td>{{address}}</td>
+        <td>{{describe}}</td>
+        <td>{{timeDone}}</td>
+        <td>{{timeStamp}}</td>
+        <td>{{note}}</td>
+        <td>{{status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</div>
+
+<script>
+    
+
+    //chuyển sang trang new
+  const goNew = () => {
+    window.location.href = `/reports/new`;
+  }
+</script>
