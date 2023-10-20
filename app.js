@@ -6,6 +6,7 @@ const path = require('path');
 const passport = require('./middleware/passport');
 const AuthRouter = require('./router/AuthRouter');
 const ReportRouter = require('./router/ReportRouter');
+const UserRouter = require('./router/UserRouter');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -46,6 +47,8 @@ app.get('/login', (req, res) => {
 });
 
 app.use('/reports', ReportRouter);
+
+app.use('/users', UserRouter);
 
 
 app.listen(3000, () => {

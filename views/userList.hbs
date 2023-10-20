@@ -1,0 +1,27 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+  <div class="box-header d-flex justify-content-between align-items-center">
+    <h3 class="box-title"><b>User Table</b></h3>
+  </div><!-- /.box-header -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Google ID</th>
+        <th>Display Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each us}}
+      <tr>
+        <td>{{index}}</td>
+        <td>{{googleId}}</td>
+        <td>{{displayName}}</td>
+        <td>{{email}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</div>
