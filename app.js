@@ -6,6 +6,7 @@ const path = require('path');
 const passport = require('./middleware/passport');
 const AuthRouter = require('./router/AuthRouter');
 const ReportRouter = require('./router/ReportRouter');
+const UserRouter = require('./router/UserRouter');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
@@ -18,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static("dist"))
 app.use(express.static("plugins"))
 app.use(express.static("public/css"))
+app.use(express.static("public/images"))
 
 // Thiết lập middleware cho phiên làm việc
 app.use(
@@ -58,6 +60,12 @@ app.use('/', AuthRouter);
 app.get('/login', (req, res) => {
   res.render('login');
 });
+
+app.get('/home', (req, res) => {
+  res.render('home');
+});
+
+app.use('/users', UserRouter);
 
 app.use('/reports', ReportRouter);
 

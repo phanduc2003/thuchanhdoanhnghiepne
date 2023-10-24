@@ -37,10 +37,12 @@ router.get('/new', (req, res) => {
 //HANDLE INSERT ENEMY
 router.post('/new',[uploadMiddleware.single('image'),],async (req,res,next)=>{
     try {
-        let { file } = req
+        let { file } = req;
         let { reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status } = req.body;
+        image = file ? file.filename : '';
         await ReportController.insert(reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status);
         console.log("Successful")
+        res.redirect('/reports');
     } catch (error) {
         console.log(error);
     }

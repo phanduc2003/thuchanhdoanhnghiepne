@@ -1,4 +1,5 @@
 const passport = require('../middleware/passport');
+const User = require('../model/User');
 
 // Hàm đăng nhập bằng Google
 async function loginWithGoogle(req, res) {
@@ -10,7 +11,7 @@ async function loginWithGoogle(req, res) {
 // Hàm xử lý sau khi đăng nhập thành công
 async function googleCallback(req, res) {
   passport.authenticate('google', {
-    successRedirect: '/auth/profile',
+    successRedirect: '/home',
     failureRedirect: '/login',
   })(req, res);
 }
@@ -20,4 +21,14 @@ async function report(req, res) {
   res.render('profile', { user: req.user });
 }
 
-module.exports = { loginWithGoogle, googleCallback, report };
+async function getAll() {
+  try {
+    let user = await User.find({});
+    console.log("Reports from MongoDB:", user); // Thêm dòng này để ghi log dữ liệu
+    return user;
+  } catch (error) {
+    console.log("Error in getAll():", error);
+  }
+}
+
+module.exports = { loginWithGoogle, googleCallback, report, getAll };

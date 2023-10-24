@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Report</title>
+  <title>Admin | User</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -207,7 +207,7 @@
             </li>
 
             <li class="nav-item ">
-              <a href="users" class="nav-link">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-solid fa-user"></i>
                 <p>
                   Users
@@ -216,7 +216,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="#" class="nav-link active">
+              <a href="reports" class="nav-link">
                 <i class="nav-icon fas fa-solid fa-flag"></i>
                 <p>
                   Reports
@@ -237,12 +237,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Report List</h1>
+              <h1>User List</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Report List</li>
+                <li class="breadcrumb-item active">User List</li>
               </ol>
             </div>
           </div>
@@ -257,7 +257,7 @@
               <!-- /.card -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Report List Information</h3>
+                  <h3 class="card-title">User List Information</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -266,42 +266,35 @@
                       <tr>
                         <th>ID</th>
                         <th>Image</th>
-                        <th>Report Type</th>
-                        <th>Address</th>
-                        <th>Describe</th>
-                        <th>Time Done</th>
-                        <th>Time Stamp</th>
-                        <th>Note</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Role</th>
                         <th>Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {{#each rp}}
+                      {{#each us}}
                       <tr>
                         <td>{{index}}</td>
-                        <td><img src="{{image}}" alt="" width="50px" height="50px"/></td>
-                        {{!-- <td>{{image}}</td> --}}
-                        <td>{{reportType}}</td>
-                        <td>{{address}}</td>
-                        <td>{{describe}}</td>
-                        <td>{{timeDone}}</td>
-                        <td>{{timeStamp}}</td>
-                        <td>{{note}}</td>
+                        <td><img src="{{photo}}" alt="" width="50px" /></td>
+                        {{!-- <td>{{photo}}</td> --}}
+                        <td>{{email}}</td>
+                        <td>{{displayName}}</td>
+                        <td>{{role}}</td>
                         <td>{{status}}</td>
                       </tr>
                       {{/each}}
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Report Type</th>
-                        <th>Address</th>
-                        <th>Describe</th>
-                        <th>Time Done</th>
-                        <th>Time Stamp</th>
-                        <th>Note</th>
-                        <th>Status</th>
+                        <tr>
+                          <th>ID</th>
+                          <th>Image</th>
+                          <th>Email</th>
+                          <th>Name</th>
+                          <th>Role</th>
+                          <th>Status</th>
+                        </tr>
                       </tr>
                     </tfoot>
                   </table>
