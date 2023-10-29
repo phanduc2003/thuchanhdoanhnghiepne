@@ -21,4 +21,43 @@ async function getAll() {
     }
 }
 
-module.exports = {insert, getAll }
+async function update(_id, reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status) {
+    try {
+        let reports = {
+            reportType: reportType,
+            address: address,
+            describe: describe,
+            evaluate: evaluate,
+            timeDone: timeDone,
+            timeStamp: timeStamp,
+            note: note,
+            status: status,
+            image: image,
+        };
+        await Report.findByIdAndUpdate({ _id }, reports);
+        console.log("update Report success..");
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getById(_id) {
+    try {
+        let reports = await Report.findOne({ _id });
+        return reports;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function deleteById(_id) {
+    try {
+        let reports = await Report.findOneAndRemove({ _id });
+        console.log("Delete success...");
+        return reports;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = {insert, getAll, deleteById, update, getById}

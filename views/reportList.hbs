@@ -30,6 +30,10 @@
         <td>{{timeStamp}}</td>
         <td>{{note}}</td>
         <td>{{status}}</td>
+        <td>
+          <button class="btn btn-outline-warning" onclick="goEdit('{{_id}}');">Edit</button>
+          <button class="btn btn-outline-dark" onclick="goDel('{{_id}}');">Delete</button>
+        </td>
       </tr>
       {{/each}}
     </tbody>
@@ -38,10 +42,20 @@
 </div>
 
 <script>
-    
 
-    //chuyển sang trang new
+
+  //chuyển sang trang new
   const goNew = () => {
     window.location.href = `/reports/new`;
+  }
+
+  const goEdit = (id) => {
+    window.location.href = `/reports/${id}/edit`;
+  }
+
+  function goDel(id) {
+    if (confirm("Ban co chac muon xoa?")) {
+      location.href = `/reports/${id}/deleteById`;
+    }
   }
 </script>

@@ -1,0 +1,114 @@
+<div class="container mt-3">
+  <form action="/reports/{{rp._id}}/edit" method="post" enctype="multipart/form-data">
+    <legend>Insert Map</legend>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Report Type: </label>
+      <input
+        type="text"
+        id="disabledTextInput" 
+        class="form-control"
+        name="reportType"
+        placeholder="Name Map"
+        value="{{rp.reportType}}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Address: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="address"
+        placeholder="Information"
+        value="{{rp.address}}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Describe: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="describe"
+        placeholder="Information"
+        value="{{rp.describe}}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Evaluate: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="evaluate"
+        placeholder="Information"
+        value="{{rp.evaluate}}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Timestamp: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="timeStamp"
+        placeholder="Information"
+        value="{{rp.timeStamp}}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">TimeDone: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="timeDone"
+        placeholder="Information"
+        value="{{rp.timeDone}}"
+      />
+    </div>
+    
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Note: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="note"
+        placeholder="Information"
+        value="{{rp.note}}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="disabledTextInput" class="form-label">Status: </label>
+      <input
+        type="text"
+        id="disabledTextInput"
+        class="form-control"
+        name="status"
+        placeholder="Information"
+        value="{{rp.status}}"
+      />
+    </div>
+    <div class="mb-3">
+            <label for="formFileSm" class="form-label">Image: </label>
+            <input type="file" name="image" id="image" value="{{rp.image}}" onchange="loadFile(event);" />
+        </div>
+        <div class="mb-3">
+            <img name="image" id="img-display" src="/images/{{rp.image}}" width="150px" height="150px">
+        </div>
+    <button type="submit" class="btn btn-outline-success">Submit</button>
+  </form>
+</div>
+
+
+<script>
+    const loadFile = function (event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('img-display');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+</script>
