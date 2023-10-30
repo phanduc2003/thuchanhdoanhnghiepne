@@ -12,37 +12,72 @@ router.get('/', async (req, res, next) => {
             return {
                 _id: el._id,
                 reportType: el.reportType,
+                originOfReport: el.originOfReport,
+                nameOfSender: el.nameOfSender,
+                nameOfRecipient: el.nameOfRecipient,
                 address: el.address,
                 describe: el.describe,
-                timeDone: el.timeDone,
-                timeStamp: el.timeStamp,
                 image: el.image,
+                date: el.date,
+                sendTime: el.sendTime,
+                receiveTime: el.receiveTime,
+                doneTime: el.doneTime,
                 note: el.note,
+                evaluate: el.evaluate,
                 status: el.status,
                 index: index + 1,
             }
         });
-        res.render('reportList', { rp : reports });
+        res.render('reportList', { rp: reports });
         console.log(reports);
     } catch (error) {
         console.log("Error in getAll():", error);
     }
 });
 
+router.get('/app', async (req, res, next) => {
+    try {
+        let reports = await ReportController.getReportNow();
+        res.send(reports)
+        console.log(reports);
+    } catch (error) {
+        console.log("Error in getAll():", error);
+    }
+});
+
+router.get('/appFixing', async (req, res, next) => {
+    try {
+        let reports = await ReportController.getReportFixing();
+        res.send(reports)
+        console.log("OK");
+    } catch (error) {
+        console.log("Error in getAll():", error);
+    }
+});
+
+router.get('/appDone', async (req, res, next) => {
+    try {
+        let reports = await ReportController.getReportDone();
+        res.send(reports)
+        console.log("OK");
+    } catch (error) {
+        console.log("Error in getAll():", error);
+    }
+});
 //INSERT ENEMY
 router.get('/new', (req, res) => {
     res.render('reportNew');
 });
 
 //HANDLE INSERT ENEMY
-router.post('/new',[uploadMiddleware.single('image'),],async (req,res,next)=>{
+router.post('/new', [uploadMiddleware.single('image'),], async (req, res, next) => {
     try {
         let { file } = req;
-        let { reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status } = req.body;
-        image = file ? file.filename : '';
-        await ReportController.insert(reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status);
+        let { reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status } = req.body;
+        // image = file ? file.filename : '';
+        await ReportController.insert(reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status);
         console.log("Successful")
-        res.redirect('/reports');
+        res.send("Successful")
     } catch (error) {
         console.log(error);
     }

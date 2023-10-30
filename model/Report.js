@@ -6,6 +6,18 @@ const ReportSchema = new Schema({
     type: String,
     required: true,
   },
+  originOfReport: {
+    type: String,
+    required: true,
+  },
+  nameOfSender: {
+    type: String,
+    required: true,
+  },
+  nameOfRecipient: {
+    type: String,
+    required: true,
+  },
   address: {
     type: String,
     required: true,
@@ -18,24 +30,32 @@ const ReportSchema = new Schema({
     type: String,
     required: true,
   },
-  evaluate: {
-    type: Number,
-    required: true,
-  },
-  timeDone: {
+  date: {
     type: String,
     required: true,
   },
-  timeStamp: {
+  sendTime: {
+    type: String,
+    required: true,
+  },
+  receiveTime: {
+    type: String,
+    required: true,
+  },
+  doneTime: {
     type: String,
     required: true,
   },
   note: {
     type: String,
   },
+  evaluate: {
+    type: Number,
+    required: true,
+  },
   status: {
-    type: Boolean,
-    default: true
+    type: Number,
+    required: true,
   },
 });
 

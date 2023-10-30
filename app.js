@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const hbs = require('hbs');
 const path = require('path');
+
 const passport = require('./middleware/passport');
 const AuthRouter = require('./router/AuthRouter');
 const ReportRouter = require('./router/ReportRouter');

@@ -1,9 +1,9 @@
 const Report = require('./../model/Report');
 
 
-async function insert(reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status) {
+async function insert(reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status) {
     try {
-        let report = new Report({ reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status });
+        let report = new Report({ reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status });
         await report.save();
         console.log("insert success..");
     } catch (error) {
@@ -21,4 +21,31 @@ async function getAll() {
     }
 }
 
-module.exports = {insert, getAll }
+async function getReportNow() {
+    try {
+        let now = await Report.find({ status : 0 });
+        return now;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getReportFixing() {
+    try {
+        let fixing = await Report.find({ status: 1 });
+        return fixing;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getReportDone() {
+    try {
+        let done = await Report.find({ status: 2 });
+        return done;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+module.exports = { insert, getAll, getReportNow, getReportFixing, getReportDone }
