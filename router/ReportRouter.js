@@ -35,6 +35,8 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+//App
+
 router.get('/app', async (req, res, next) => {
     try {
         let reports = await ReportController.getReportNow();
@@ -76,6 +78,36 @@ router.post('/new', [uploadMiddleware.single('image'),], async (req, res, next) 
         let { reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status } = req.body;
         // image = file ? file.filename : '';
         await ReportController.insert(reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status);
+        console.log("Successful")
+        res.send("Successful")
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+//UPDATE
+router.get('/:id/edit', async function (req, res, next) {
+    let _id = req.params.id;
+    try {
+        let reports = await ReportController.getById(_id);
+        res.render('service_report/reportEdit', { rp: reports });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+//HANDLE UPDATE
+router.post('/:id/edit', [uploadMiddleware.single('image'),], async function (req, res, next) {
+    let _id = req.params.id;
+    try {
+        let { file } = req;
+        let { reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status } = req.body;
+        // if (file) {
+        //     image = file.filename;
+        // } else {
+        //     image = image;
+        // }
+        await ReportController.update(_id, reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status);
         console.log("Successful")
         res.send("Successful")
     } catch (error) {

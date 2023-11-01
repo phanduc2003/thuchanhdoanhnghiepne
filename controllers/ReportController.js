@@ -11,6 +11,31 @@ async function insert(reportType, originOfReport, nameOfSender, nameOfRecipient,
     }
 }
 
+async function update(_id, reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status) {
+    try {
+        let reports = {
+            reportType: reportType,
+            originOfReport: originOfReport,
+            nameOfSender: nameOfSender,
+            nameOfRecipient: nameOfRecipient,
+            address: address,
+            describe: describe,
+            image: image,
+            date: date,
+            sendTime: sendTime,
+            receiveTime: receiveTime,
+            doneTime: doneTime,
+            note: note,
+            evaluate: evaluate,
+            status: status,
+        };
+        await Report.findByIdAndUpdate({ _id }, reports);
+        console.log("update Report success..");
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function getAll() {
     try {
         let reports = await Report.find({});
@@ -48,4 +73,4 @@ async function getReportDone() {
     }
 }
 
-module.exports = { insert, getAll, getReportNow, getReportFixing, getReportDone }
+module.exports = { insert, update, getAll, getReportNow, getReportFixing, getReportDone }
