@@ -1,15 +1,19 @@
 // app.js
 const express = require('express');
 const session = require('express-session');
-const hbs = require('hbs');
+const app = express();
 const path = require('path');
 const passport = require('./middleware/passport');
+const mongoose = require('mongoose');
+
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 const AuthRouter = require('./router/AuthRouter');
 const ReportRouter = require('./router/ReportRouter');
 const UserRouter = require('./router/UserRouter');
-const mongoose = require('mongoose');
-
-const app = express();
+const TypeRouter = require('./router/TypeRouter');
 
 // Thiết lập Handlebars làm view engine
 app.set('view engine', 'hbs');
@@ -39,16 +43,17 @@ connDb();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Sử dụng định tuyến từ AuthRouter
+// Sử dụng định tuyến
 app.use('/', AuthRouter);
+app.use('/reports', ReportRouter);
+app.use('/users', UserRouter);
+app.use('/types', TypeRouter);
 
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
-app.use('/reports', ReportRouter);
 
-app.use('/users', UserRouter);
 
 
 app.listen(3000, () => {

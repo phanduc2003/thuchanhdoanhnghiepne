@@ -14,8 +14,9 @@ const ReportSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
+  image: [String], 
+  evaluate: {
+    type: Number,
     required: true,
   },
   evaluate: {

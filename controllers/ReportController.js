@@ -21,7 +21,7 @@ async function getAll() {
     }
 }
 
-async function update(_id, reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status) {
+async function update(_id, reportType, address, describe, images, evaluate, timeDone, timeStamp, note, status) {
     try {
         let reports = {
             reportType: reportType,
@@ -32,7 +32,7 @@ async function update(_id, reportType, address, describe, image, evaluate, timeD
             timeStamp: timeStamp,
             note: note,
             status: status,
-            image: image,
+            image: images,
         };
         await Report.findByIdAndUpdate({ _id }, reports);
         console.log("update Report success..");

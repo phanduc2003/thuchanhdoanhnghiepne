@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
                 index: index + 1,
             }
         });
-        res.render('reportList', { rp : reportnes });
+        res.render('service_report/reportList', { rp : reportnes });
         console.log(reportnes);
     } catch (error) {
         console.log("Error in getAll():", error);
@@ -31,22 +31,23 @@ router.get('/', async (req, res) => {
 
 //INSERT 
 router.get('/new', (req, res) => {
-    res.render('reportNew');
+    res.render('service_report/reportNew');
 });
 
 //HANDLE INSERT 
-router.post('/new',[uploadMiddleware.single('image'),],async (req,res,next)=>{
+router.post('/new', [uploadMiddleware.array('images', 5)], async (req, res, next) => {
     try {
-        let { file } = req;
+        let { files } = req; // Sử dụng files thay vì file
         let status = req.body.status ? true : false;
-        let { reportType, address, describe, image, evaluate, timeDone, timeStamp, note } = req.body;
-        image = file ? file.filename : '';
-        await ReportController.insert(reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status);
+        let { reportType, address, describe, evaluate, timeDone, timeStamp, note } = req.body;
+        let images = files.map(file => file.filename); // Sử dụng map để lấy danh sách tên file
+        await ReportController.insert(reportType, address, describe, images, evaluate, timeDone, timeStamp, note, status);
         res.redirect('/reports');
     } catch (error) {
         console.log(error);
     }
 });
+
 
 //DELETE
 router.get('/:id/deleteById', async (req, res, next) => {
@@ -72,17 +73,22 @@ router.get('/:id/edit', async function (req, res, next) {
 });
 
 //HANDLE UPDATE
-router.post('/:id/edit', [uploadMiddleware.single('image'), ], async function (req, res, next) {
+router.post('/:id/edit', [uploadMiddleware.array('images', 5)], async function (req, res, next) {
     let _id = req.params.id;
     try {
-        let { file } = req;
-        let { reportType, address, describe, image, evaluate, timeDone, timeStamp, note } = req.body;
-        if (file) {
-            image = file.filename;
-        }else{
-            image = image;
-        } 
-        await ReportController.update(_id, reportType, address, describe, image, evaluate, timeDone, timeStamp, note);
+        let { files } = req;
+        let { reportType, address, describe, evaluate, timeDone, timeStamp, note } = req.body;
+        let existingImages = req.body.existingImages.split(',');
+
+        let images;
+        if (files.length > 0) {
+            // Nếu có hình ảnh mới, sử dụng danh sách tên hình ảnh mới
+            images = files.map(file => file.filename);
+        } else {
+            // Nếu không có hình ảnh mới, sử dụng danh sách tên hình ảnh hiện có
+            images = existingImages;
+        }
+        await ReportController.update(_id, reportType, address, describe, images, evaluate, timeDone, timeStamp, note);
         res.redirect(`/reports`);
     } catch (error) {
         console.log(error); 

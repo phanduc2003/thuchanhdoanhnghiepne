@@ -1,35 +1,21 @@
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">
   <div class="box-header d-flex justify-content-between align-items-center">
-    <h3 class="box-title"><b>Reports Table</b></h3>
+    <h3 class="box-title"><b>Type Report Table</b></h3>
     <button class="btn btn-primary" onclick="goNew();">New</button>
   </div><!-- /.box-header -->
   <table class="table">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Image</th>
         <th>Report Type</th>
-        <th>Address</th>
-        <th>Describe</th>
-        <th>Time Done</th>
-        <th>Time Stamp</th>
-        <th>Note</th>
-        <th>Status</th>
       </tr>
     </thead>
     <tbody>
-      {{#each rp}}
+      {{#each ty}}
       <tr>
         <td>{{index}}</td>
-        <td><img src="images/{{image}}" alt="" width="150px" height="150px" /></td>
-        <td>{{reportType}}</td>
-        <td>{{address}}</td>
-        <td>{{describe}}</td>
-        <td>{{timeDone}}</td>
-        <td>{{timeStamp}}</td>
-        <td>{{note}}</td>
-        <td>{{status}}</td>
+        <td>{{nameType}}</td>
         <td>
           <button class="btn btn-outline-warning" onclick="goEdit('{{_id}}');">Edit</button>
           <button class="btn btn-outline-dark" onclick="goDel('{{_id}}');">Delete</button>
@@ -46,16 +32,16 @@
 
   //chuyển sang trang new
   const goNew = () => {
-    window.location.href = `/reports/new`;
+    window.location.href = `/types/new`;
   }
 
   const goEdit = (id) => {
-    window.location.href = `/reports/${id}/edit`;
+    window.location.href = `/types/${id}/edit`;
   }
 
   function goDel(id) {
     if (confirm("Ban co chac muon xoa?")) {
-      location.href = `/reports/${id}/deleteById`;
+      location.href = `/types/${id}/deleteById`;
     }
   }
 </script>
