@@ -37,6 +37,16 @@ router.get('/', async (req, res, next) => {
 
 //App
 
+router.get('/rp', async (req, res, next) => {
+    try {
+        let reports = await ReportController.getAll();
+        res.send(reports)
+        console.log(reports);
+    } catch (error) {
+        console.log("Error in getAll():", error);
+    }
+});
+
 router.get('/app', async (req, res, next) => {
     try {
         let reports = await ReportController.getReportNow();
@@ -78,7 +88,6 @@ router.post('/new', [uploadMiddleware.single('image'),], async (req, res, next) 
         let { reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status } = req.body;
         // image = file ? file.filename : '';
         await ReportController.insert(reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status);
-        console.log("Successful")
         res.send("Successful")
     } catch (error) {
         console.log(error);
