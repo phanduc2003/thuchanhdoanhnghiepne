@@ -108,7 +108,7 @@ router.post('/:id/edit', [uploadMiddleware.single('image'),], async function (re
         //     image = image;
         // }
         await ReportController.update(_id, reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status);
-        console.log("Successful")
+        console.log(_id)
         res.send("Successful")
     } catch (error) {
         console.log(error);
