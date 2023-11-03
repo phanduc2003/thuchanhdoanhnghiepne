@@ -39,9 +39,9 @@ router.post('/new', [uploadMiddleware.array('images', 5)], async (req, res, next
     try {
         let { files } = req; // Sử dụng files thay vì file
         let status = req.body.status ? true : false;
-        let { reportType, address, describe, evaluate, timeDone, timeStamp, note } = req.body;
-        let images = files.map(file => file.filename); // Sử dụng map để lấy danh sách tên file
-        await ReportController.insert(reportType, address, describe, images, evaluate, timeDone, timeStamp, note, status);
+        let { reportType, address, describe, image, evaluate, timeDone, timeStamp, note } = req.body;
+        //let images = files.map(file => file.filename); // Sử dụng map để lấy danh sách tên file
+        await ReportController.insert(reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status);
         res.redirect('/reports');
     } catch (error) {
         console.log(error);
