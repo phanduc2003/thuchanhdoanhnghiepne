@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
+
 const router = express.Router();
 
 let ReportController = require('./../controllers/ReportController');
@@ -94,4 +96,20 @@ router.post('/:id/edit', [uploadMiddleware.array('images', 5)], async function (
         console.log(error); 
     }
 });
+
+router.get('/:id/changeStatus', async (req, res, next) => {
+    const _id = req.params.id;
+    try {
+        const report = await ReportController.getById(_id);
+        if (report) {
+            const newStatus = !report.status; // Đảo ngược trạng thái hiện tại
+            await ReportController.updateStatus(_id, newStatus);
+            console.log(`Change status of report ${_id} to ${newStatus ? 'activated' : 'deactivated'}`);
+        }
+        res.redirect("/reports");
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 module.exports = router;
