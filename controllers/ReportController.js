@@ -73,4 +73,24 @@ async function getReportDone() {
     }
 }
 
-module.exports = { insert, update, getAll, getReportNow, getReportFixing, getReportDone }
+async function test() {
+    try {
+        const reports = await Report.aggregate([
+            {
+                $group: {
+                    _id: {
+                        report: reportType,
+                    },
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        return reports;
+    } catch (err) {
+        console.error(err);
+        res.send("Error : " + err);
+    }
+}
+
+module.exports = { insert, update, getAll, getReportNow, getReportFixing, getReportDone, test }

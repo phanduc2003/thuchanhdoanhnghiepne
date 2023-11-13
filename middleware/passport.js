@@ -21,7 +21,7 @@ passport.use(new GoogleStrategy({
         email: profile.emails[0].value,
         photo: profile.photos[0].value,
         role: "manager",
-        status: "isActive"
+        status: true,
         // Thêm các trường dữ liệu khác tùy theo nhu cầu
       });
       newUser.save().then((user) => {

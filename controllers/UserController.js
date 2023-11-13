@@ -9,4 +9,14 @@ async function getAll() {
     }
 }
 
-module.exports = { getAll }
+async function check(id) {
+    try {
+        console.log("id : " + id);
+        let users = await User.findOne({ googleId: id });
+        return users;
+    } catch (error) {
+        console.log("Error in getAll():", error);
+    }
+}
+
+module.exports = { getAll, check }

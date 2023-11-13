@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+const Report = require('./../model/Report');
 
 let ReportController = require('./../controllers/ReportController');
 let uploadMiddleware = require('../middleware/upload');
@@ -34,6 +35,27 @@ router.get('/', async (req, res, next) => {
         console.log("Error in getAll():", error);
     }
 });
+
+
+router.get('/test', async (req, res) => {
+    try {
+        const reports = await Report.aggregate([
+            { $match: { reportType : "Sự cố vật chất" } },
+            {
+                $group: {
+                    _id: "$status",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        res.render(reports);
+    } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+    }
+});
+
 
 //App
 

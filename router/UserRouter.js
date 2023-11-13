@@ -26,5 +26,17 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+router.post('/check', async (req, res, next) => {
+    try {
+        let { id } = req.body;
+        let users = await UserController.check(id);
+
+        res.send(users);
+        console.log(users);
+    } catch (error) {
+        console.log("Error in getAll():", error);
+    }
+});
+
 
 module.exports = router;
