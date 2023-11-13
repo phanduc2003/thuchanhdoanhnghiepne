@@ -7,6 +7,7 @@ const path = require('path');
 const passport = require('./middleware/passport');
 const AuthRouter = require('./router/AuthRouter');
 const ReportRouter = require('./router/ReportRouter');
+const StaticsticalRouter = require('./router/StaticsticalRouter');
 const UserRouter = require('./router/UserRouter');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -70,6 +71,7 @@ app.use('/users', UserRouter);
 
 app.use('/reports', ReportRouter);
 
+app.use('/test', StaticsticalRouter);
 
 
 

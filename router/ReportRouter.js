@@ -106,7 +106,6 @@ router.get('/new', (req, res) => {
 //HANDLE INSERT ENEMY
 router.post('/new', [uploadMiddleware.single('image'),], async (req, res, next) => {
     try {
-        let { file } = req;
         let { reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status } = req.body;
         // image = file ? file.filename : '';
         await ReportController.insert(reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status);

@@ -38,5 +38,19 @@ router.post('/check', async (req, res, next) => {
     }
 });
 
+router.get('/:id/changeStatus', async (req, res, next) => {
+    const _id = req.params.id;
+    try {
+        const user = await UserController.getById(_id);
+        if (user) {
+            const newStatus = !user.status; // Đảo ngược trạng thái hiện tại
+            await UserController.updateStatus(_id, newStatus);
+            console.log(`Change status of User ${_id} to ${newStatus ? 'activated' : 'deactivated'}`);
+        }
+        res.redirect("/users");
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 module.exports = router;

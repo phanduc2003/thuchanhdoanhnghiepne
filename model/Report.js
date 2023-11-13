@@ -33,7 +33,11 @@ const ReportSchema = new Schema({
   },
   date: {
     type: String,
-    required: true,
+    require: true,
+  },
+  dateTk: {
+    type: Date,
+    default: Date.now,
   },
   sendTime: {
     type: String,
