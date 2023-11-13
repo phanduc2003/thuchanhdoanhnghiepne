@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
+
 const router = express.Router();
 
 let ReportController = require('./../controllers/ReportController');
@@ -39,9 +41,9 @@ router.post('/new', [uploadMiddleware.array('images', 5)], async (req, res, next
     try {
         let { files } = req; // Sử dụng files thay vì file
         let status = req.body.status ? true : false;
-        let { reportType, address, describe, evaluate, timeDone, timeStamp, note } = req.body;
+        let { reportType, address, describe, evaluate, timeDone, note } = req.body;
         let images = files.map(file => file.filename); // Sử dụng map để lấy danh sách tên file
-        await ReportController.insert(reportType, address, describe, images, evaluate, timeDone, timeStamp, note, status);
+        await ReportController.insert(reportType, address, describe, images, evaluate, timeDone, note, status);
         res.redirect('/reports');
     } catch (error) {
         console.log(error);
@@ -94,4 +96,20 @@ router.post('/:id/edit', [uploadMiddleware.array('images', 5)], async function (
         console.log(error); 
     }
 });
+
+router.get('/:id/changeStatus', async (req, res, next) => {
+    const _id = req.params.id;
+    try {
+        const report = await ReportController.getById(_id);
+        if (report) {
+            const newStatus = !report.status; // Đảo ngược trạng thái hiện tại
+            await ReportController.updateStatus(_id, newStatus);
+            console.log(`Change status of report ${_id} to ${newStatus ? 'activated' : 'deactivated'}`);
+        }
+        res.redirect("/reports");
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 module.exports = router;

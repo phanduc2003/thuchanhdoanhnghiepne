@@ -48,7 +48,16 @@
         <td>{{status}}</td>
         <td>
           <button class="btn btn-outline-warning" onclick="goEdit('{{_id}}');">Edit</button>
+          <hr>
           <button class="btn btn-outline-dark" onclick="goDel('{{_id}}');">Delete</button>
+          <hr>
+          <button class="btn btn-outline-success" onclick="changeStatus('{{_id}}', '{{status}}');">
+            {{#if status}}
+            Activate
+            {{else}}
+            Deactivate
+            {{/if}}
+          </button>
         </td>
       </tr>
       {{/each}}
@@ -72,6 +81,13 @@
   function goDel(id) {
     if (confirm("Ban co chac muon xoa?")) {
       location.href = `/reports/${id}/deleteById`;
+    }
+  }
+
+  const changeStatus = (id, currentStatus) => {
+    const confirmMessage = currentStatus ? 'deactivate' : 'activate';
+    if (confirm(`Are you sure you want to ${confirmMessage} this report?`)) {
+      location.href = `/reports/${id}/changeStatus`;
     }
   }
 </script>

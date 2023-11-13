@@ -28,8 +28,8 @@ const ReportSchema = new Schema({
     required: true,
   },
   timeStamp: {
-    type: String,
-    required: true,
+    type: Date,
+    default: Date.now,
   },
   note: {
     type: String,
