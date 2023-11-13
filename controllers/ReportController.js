@@ -2,12 +2,9 @@ const Report = require('./../model/Report');
 const moment = require('moment-timezone');
 
 
-async function insert(reportType, address, describe, image, evaluate, timeDone, note, status) {
+async function insert(reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status) {
     try {
-        const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
-        const timeStamp = moment().tz(vietnamTimeZone).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-
-        let report = new Report({ reportType, address, describe, image, evaluate, timeDone, timeStamp, note, status });
+        let report = new Report({ reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status });
         await report.save();
         console.log("Insert success..");
     } catch (error) {
@@ -15,6 +12,30 @@ async function insert(reportType, address, describe, image, evaluate, timeDone, 
     }
 }
 
+async function update(_id, reportType, originOfReport, nameOfSender, nameOfRecipient, address, describe, image, date, sendTime, receiveTime, doneTime, note, evaluate, status) {
+    try {
+        let reports = {
+            reportType: reportType,
+            originOfReport: originOfReport,
+            nameOfSender: nameOfSender,
+            nameOfRecipient: nameOfRecipient,
+            address: address,
+            describe: describe,
+            image: image,
+            date: date,
+            sendTime: sendTime,
+            receiveTime: receiveTime,
+            doneTime: doneTime,
+            note: note,
+            evaluate: evaluate,
+            status: status,
+        };
+        await Report.findByIdAndUpdate({ _id }, reports);
+        console.log("update Report success..");
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 async function getAll() {
     try {
@@ -26,51 +47,51 @@ async function getAll() {
     }
 }
 
-async function update(_id, reportType, address, describe, images, evaluate, timeDone, timeStamp, note) {
+async function getReportNow() {
     try {
-        let reports = {
-            reportType: reportType,
-            address: address,
-            describe: describe,
-            evaluate: evaluate,
-            timeDone: timeDone,
-            timeStamp: timeStamp,
-            note: note,
-            image: images,
-        };
-        await Report.findByIdAndUpdate({ _id }, reports);
-        console.log("update Report success..");
+        let now = await Report.find({ status : 0 });
+        return now;
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
-async function getById(_id) {
+async function getReportFixing() {
     try {
-        let reports = await Report.findOne({ _id });
+        let fixing = await Report.find({ status: 1 });
+        return fixing;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getReportDone() {
+    try {
+        let done = await Report.find({ status: 2 });
+        return done;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function test() {
+    try {
+        const reports = await Report.aggregate([
+            {
+                $group: {
+                    _id: {
+                        report: reportType,
+                    },
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
         return reports;
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        console.error(err);
+        res.send("Error : " + err);
     }
 }
 
-async function deleteById(_id) {
-    try {
-        let reports = await Report.findOneAndRemove({ _id });
-        console.log("Delete success...");
-        return reports;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-async function updateStatus(_id, status) {
-    try {
-        await Report.findByIdAndUpdate(_id, { status });
-        console.log(`Update status success for report ${_id}`);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-module.exports = {insert, getAll, deleteById, update, getById, updateStatus}
+module.exports = { insert, update, getAll, getReportNow, getReportFixing, getReportDone, test }

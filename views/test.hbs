@@ -1,0 +1,103 @@
+<!-- Trong reportStats.hbs hoặc template tương tự -->
+<form id="dateRangeForm">
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
+    <button type="button" onclick="fetchAndDrawStats()">Fetch Stats</button>
+</form>
+<h3>Daily Statistics</h3>
+<canvas id="dailyChart" width="80" height="40"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        try {
+            // Fetch data for statistical report
+            await fetchAndDrawStats();
+        } catch (error) {
+            console.log("Error fetching and drawing charts:", error);
+        }
+    });
+
+    async function fetchAndDrawStats() {
+        try {
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+
+            let startDate = startDateInput.value;
+            let endDate = endDateInput.value;
+
+            // Check if start date and end date are not selected
+            if (!startDate && !endDate) {
+                // If both dates are not selected, set default range (e.g., current week)
+                const today = new Date();
+                const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+                startDate = startOfWeek.toISOString().split('T')[0];
+                endDate = today.toISOString().split('T')[0];
+
+                // Update the input fields with default values
+                startDateInput.value = startDate;
+                endDateInput.value = endDate;
+            }
+
+            let url = `/test/daily?startDate=${startDate}&endDate=${endDate}`;
+            let dailyStats = await fetch(url).then(response => response.json());
+
+            // Parse data for Chart.js
+            const parseStatsData = (stats) => {
+                return {
+                    labels: stats.map(entry => entry._id),
+                    counts: stats.map(entry => entry.count),
+                };
+            };
+
+            // Get parsed data
+            const parsedDailyStats = parseStatsData(dailyStats);
+
+            // Destroy existing chart if it exists
+            destroyChart('dailyChart');
+
+            // Draw charts
+            drawChart('dailyChart', 'Daily Reports', parsedDailyStats, true);
+        } catch (error) {
+            console.log("Error fetching and drawing charts:", error);
+        }
+    }
+
+
+    function destroyChart(canvasId) {
+        const existingChart = Chart.getChart(canvasId);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+    }
+
+    function drawChart(canvasId, label, data, includeAdditionalDates = false) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+
+        if (includeAdditionalDates) {
+            // ... (các bước xử lý additional dates)
+        }
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: label,
+                    data: data.counts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                // Customize options as needed
+            }
+        });
+    }
+
+</script>
